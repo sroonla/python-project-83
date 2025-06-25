@@ -1,7 +1,6 @@
 import os
-
+from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
-from flask import Flask
 
 load_dotenv()
 
@@ -10,4 +9,9 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 @app.route('/')
 def index():
-    return 'Привет! Это главная страница анализатора'
+    return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    url = request.form.get('website_url')
+    return redirect(url_for('index'))
