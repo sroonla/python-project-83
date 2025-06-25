@@ -13,4 +13,4 @@ build:
 	./build.sh
 
 render-start:
-    python -m gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+    python gunicorn_server.py
