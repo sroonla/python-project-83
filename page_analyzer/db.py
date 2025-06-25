@@ -16,7 +16,7 @@ def normalize_url(url):
     return f"{parsed.scheme}://{parsed.netloc}"
 
 def is_valid_url(url):
-    return validators.url(url) and len(url) <= 255
+    return bool(validators.url(url)) and len(url) <= 255
 
 def add_url(url):
     normalized_url = normalize_url(url)
