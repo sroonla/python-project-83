@@ -5,13 +5,9 @@ set -e
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
 
-# Debug info
-echo "Python path: $(which python)"
-echo "Python version: $(python --version)"
-echo "PATH: $PATH"
+# Create virtual environment
+uv venv .venv
+source .venv/bin/activate
 
-# Install dependencies globally
-uv pip install --system -e .
-
-# List installed packages
-uv pip freeze
+# Install dependencies
+uv pip install -e .
