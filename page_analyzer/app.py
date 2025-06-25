@@ -5,6 +5,7 @@ from flask import (
     Flask, render_template, request, 
     redirect, url_for, flash, get_flashed_messages
 )
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from .db import (
     add_url, get_url_by_id, get_url_by_name,
@@ -81,10 +82,19 @@ def check_url(id):
         
         response = requests.get(url_name, headers=headers, timeout=10)
         response.raise_for_status()
-
-        status_code = response.status_code
         
-        add_url_check(id, response.status_code)
+        soup = BeautifulSoup(response.text, 'lxml')
+        
+        h1_tag = soup.find('h1')
+        h1 = h1_tag.text.strip() if h1_tag else None
+        
+        title_tag = soup.find('title')
+        title = title_tag.text.strip() if title_tag else None
+        
+        meta_desc = soup.find('meta', attrs={'name': 'description'})
+        description = meta_desc['content'].strip() if meta_desc and meta_desc.get('content') else None
+        
+        add_url_check(id, response.status_code, h1, title, description)
         flash('Страница успешно проверена', 'success')
         
     except requests.exceptions.RequestException as e:

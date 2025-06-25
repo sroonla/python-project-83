@@ -26,26 +26,34 @@
     <button type="submit" class="btn btn-primary">Запустить проверку</button>
 </form>
 
-<table class="table table-bordered table-hover mt-2" data-test="checks">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Код ответа</th>
-            <th>Дата проверки</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for check in checks %}
-        <tr>
-            <td>{{ check[0] }}</td>
-            <td>{{ check[1] }}</td>
-            <td>{{ check[2].strftime('%Y-%m-%d %H:%M') }}</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="3" class="text-center">Проверок пока нет</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover mt-2" data-test="checks">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Код ответа</th>
+                <th>h1</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Дата проверки</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for check in checks %}
+            <tr>
+                <td>{{ check[0] }}</td>
+                <td>{{ check[1] }}</td>
+                <td>{{ check[3] | default('', true) }}</td>
+                <td>{{ check[4] | default('', true) }}</td>
+                <td>{{ check[5] | default('', true) }}</td>
+                <td>{{ check[2].strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Проверок пока нет</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

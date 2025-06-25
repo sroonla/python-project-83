@@ -13,6 +13,8 @@ dependencies = [
     "requests==2.31.0",
     "validators==0.22.0",
     "blinker==1.9.0",
+    "beautifulsoup4==4.12.3",
+    "lxml==5.2.1",
 ]
 requires-python = ">=3.9"
 

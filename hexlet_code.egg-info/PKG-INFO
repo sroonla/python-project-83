@@ -11,3 +11,5 @@ Requires-Dist: psycopg2-binary==2.9.9
 Requires-Dist: requests==2.31.0
 Requires-Dist: validators==0.22.0
 Requires-Dist: blinker==1.9.0
+Requires-Dist: beautifulsoup4==4.12.3
+Requires-Dist: lxml==5.2.1
