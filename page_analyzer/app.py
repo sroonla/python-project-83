@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 
@@ -6,6 +7,10 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+@app.context_processor
+def inject_current_year():
+    return {'current_year': datetime.datetime.now().year}
 
 @app.route('/')
 def index():
