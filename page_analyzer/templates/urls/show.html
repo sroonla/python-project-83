@@ -30,6 +30,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Код ответа</th>
             <th>Дата проверки</th>
         </tr>
     </thead>
@@ -37,11 +38,12 @@
         {% for check in checks %}
         <tr>
             <td>{{ check[0] }}</td>
-            <td>{{ check[1].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ check[1] }}</td>
+            <td>{{ check[2].strftime('%Y-%m-%d %H:%M') }}</td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="2" class="text-center">Проверок пока нет</td>
+            <td colspan="3" class="text-center">Проверок пока нет</td>
         </tr>
         {% endfor %}
     </tbody>

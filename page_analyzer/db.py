@@ -58,22 +58,42 @@ def get_all_urls():
             """)
             return cur.fetchall()
 
-def add_url_check(url_id):
+def add_url_check(url_id, status_code):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO url_checks (url_id)
-                VALUES (%s)
-            """, (url_id,))
+                INSERT INTO url_checks (url_id, status_code)
+                VALUES (%s, %s)
+            """, (url_id, status_code))
             conn.commit()
 
 def get_url_checks(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
-                SELECT id, created_at 
+                SELECT id, status_code, created_at 
                 FROM url_checks 
                 WHERE url_id = %s 
                 ORDER BY created_at DESC
             """, (url_id,))
+            return cur.fetchall()
+
+def get_all_urls():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT 
+                    u.id, 
+                    u.name, 
+                    MAX(uc.created_at) AS last_check,
+                    (SELECT status_code 
+                     FROM url_checks 
+                     WHERE url_id = u.id 
+                     ORDER BY created_at DESC 
+                     LIMIT 1) AS last_status
+                FROM urls u
+                LEFT JOIN url_checks uc ON u.id = uc.url_id
+                GROUP BY u.id, u.name
+                ORDER BY u.id DESC
+            """)
             return cur.fetchall()

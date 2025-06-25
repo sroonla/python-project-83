@@ -1,5 +1,6 @@
 import os
 import datetime
+import requests
 from flask import (
     Flask, render_template, request, 
     redirect, url_for, flash, get_flashed_messages
@@ -66,15 +67,39 @@ def show_url(id):
 
 @app.post('/urls/<int:id>/checks')
 def check_url(id):
-    url = get_url_by_id(id)
-    if not url:
+    url_data = get_url_by_id(id)
+    if not url_data:
         flash('Страница не найдена', 'danger')
         return redirect(url_for('index'))
     
+    url_name = url_data[1]
+    
     try:
-        add_url_check(id)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
+        }
+        
+        response = requests.get(url_name, headers=headers, timeout=10)
+        response.raise_for_status()
+
+        status_code = response.status_code
+        
+        add_url_check(id, response.status_code)
         flash('Страница успешно проверена', 'success')
+        
+    except requests.exceptions.RequestException as e:
+        if isinstance(e, requests.exceptions.Timeout):
+            error_msg = 'Таймаут при проверке сайта'
+        elif isinstance(e, requests.exceptions.TooManyRedirects):
+            error_msg = 'Слишком много перенаправлений'
+        elif isinstance(e, requests.exceptions.SSLError):
+            error_msg = 'Ошибка SSL сертификата'
+        else:
+            error_msg = f'Ошибка при проверке: {str(e)}'
+        
+        flash(error_msg, 'danger')
+    
     except Exception as e:
-        flash(f'Ошибка при проверке страницы: {str(e)}', 'danger')
+        flash(f'Неизвестная ошибка: {str(e)}', 'danger')
     
     return redirect(url_for('show_url', id=id))
