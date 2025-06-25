@@ -12,23 +12,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install uv
+        pip install uv pytest coverage
         uv pip install -e .
+        
     - name: Lint with flake8
       run: |
-        pip install flake8
         flake8 page_analyzer
-    - name: Run tests
+        
+    - name: Run tests with coverage
       run: |
-        pip install pytest
-        pytest
+        coverage run -m pytest
+        coverage xml  # Генерируем отчет для SonarQube
+        
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
