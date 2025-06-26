@@ -1,8 +1,7 @@
 PORT ?= 8000
 
 hexlet-setup:
-	chmod +x .hexlet/setup.sh
-	.hexlet/setup.sh
+	docker build -t hexlet-app .
 
 setup:
 	uv sync
