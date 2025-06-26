@@ -8,7 +8,7 @@ def test_db_connection():
 
 def test_normalize_url():
     assert normalize_url("https://example.com/path") == "https://example.com"
-    assert normalize_url("http://example.com:80") == "http://example.com:80"
+    assert normalize_url("https://example.com:443") == "https://example.com:443"
 
 def test_is_valid_url():
     assert is_valid_url("https://example.com") is True
