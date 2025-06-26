@@ -20,3 +20,10 @@ build:
 
 render-start:
 	.venv/bin/gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+
+setup:
+    if [ -n "$$HEXLET_CI" ]; then \
+        echo "Installing system dependencies for Hexlet CI"; \
+        apt-get update && apt-get install -y libpq-dev; \
+    fi
+    uv sync

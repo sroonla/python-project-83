@@ -48,11 +48,24 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       run: |
         coverage run --source=page_analyzer -m pytest
-        
         coverage xml
         
-        echo "Coverage XML content:"
-        head coverage.xml
+    - name: List files for debugging
+      run: |
+        echo "Current directory: $(pwd)"
+        ls -la
+        echo "Coverage file exists: $(test -f coverage.xml && echo 'Yes' || echo 'No')"
+        echo "Source directory exists: $(test -d page_analyzer && echo 'Yes' || echo 'No')"
+        
+    - name: Debug SonarCloud token
+      run: |
+        echo "SONAR_TOKEN length: ${#SONAR_TOKEN}"
+        if [ -z "$SONAR_TOKEN" ]; then
+          echo "ERROR: SONAR_TOKEN is empty!"
+          exit 1
+        else
+          echo "SONAR_TOKEN is set (length: ${#SONAR_TOKEN})"
+        fi
         
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
