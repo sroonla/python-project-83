@@ -1,0 +1,10 @@
+[run]
+source = page_analyzer
+branch = True
+parallel = True
+
+[paths]
+source = page_analyzer
+
+[xml]
+output = coverage.xml
