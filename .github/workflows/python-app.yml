@@ -2,50 +2,55 @@ name: Python CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.12'
         
-    - name: Install dependencies
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y libpq-dev
+      
+    - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install coverage pytest
-        uv pip install -e .
+        pip install coverage pytest psycopg2-binary
+        pip install -e .
         
-    - name: Run coverage
+    - name: Run tests with coverage
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       run: |
-        mkdir -p tests
-        cat > tests/test_coverage.py << EOF
-        def test_app_import():
-            from page_analyzer.app import app
-            assert app is not None
-            
-        def test_db_import():
-            from page_analyzer.db import get_connection
-            conn = get_connection()
-            assert conn is not None
-            conn.close()
-        EOF
+        coverage run --source=page_analyzer -m pytest
         
-        coverage run --source=page_analyzer -m pytest tests/test_coverage.py
         coverage xml
         
-        echo "Generated files:"
-        ls -la
         echo "Coverage XML content:"
         head coverage.xml
         
@@ -55,4 +60,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: ${{ github.workspace }}
+        args: >
+          -Dsonar.projectKey=sroonla_python-project-83
+          -Dsonar.organization=sroonla
+          -Dsonar.sources=page_analyzer
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.exclusions=tests/**,**/__pycache__/**

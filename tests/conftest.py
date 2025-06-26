@@ -1,18 +1,31 @@
 import os
 import pytest
-from page_analyzer.app import app as flask_app
-from dotenv import load_dotenv
+from page_analyzer.db import get_connection
 
-load_dotenv()
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_database():
+    """Создает тестовую БД и применяет миграции"""
+    db_url = os.getenv("DATABASE_URL")
+    
+    if not db_url:
+        pytest.skip("DATABASE_URL not set, skipping database setup")
+        return
 
-@pytest.fixture
-def app():
-    flask_app.config.update({
-        "TESTING": True,
-        "DATABASE_URL": os.getenv('TEST_DATABASE_URL', 'postgresql://test_user:test_pass@localhost/test_db')
-    })
-    yield flask_app
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
+    try:
+        conn = get_connection(db_url)
+        cur = conn.cursor()
+        
+        with open('database.sql', 'r') as f:
+            sql_script = f.read()
+            
+            commands = sql_script.split(';')
+            for command in commands:
+                if command.strip():
+                    cur.execute(command)
+        
+        conn.commit()
+    except Exception as e:
+        pytest.fail(f"Database setup failed: {str(e)}")
+    finally:
+        if conn:
+            conn.close()
