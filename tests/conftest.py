@@ -4,7 +4,6 @@ from page_analyzer.db import get_connection
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
-    """Создает тестовую БД и применяет миграции"""
     db_url = os.getenv("DATABASE_URL")
     
     if not db_url:
@@ -12,7 +11,7 @@ def setup_test_database():
         return
 
     try:
-        conn = get_connection(db_url)
+        conn = get_connection()
         cur = conn.cursor()
         
         with open('database.sql', 'r') as f:

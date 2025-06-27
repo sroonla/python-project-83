@@ -45,19 +45,6 @@ def get_url_by_name(url):
             cur.execute("SELECT * FROM urls WHERE name = %s", (normalized_url,))
             return cur.fetchone()
 
-def get_all_urls():
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                SELECT urls.id, urls.name, 
-                       MAX(url_checks.created_at) AS last_check
-                FROM urls
-                LEFT JOIN url_checks ON urls.id = url_checks.url_id
-                GROUP BY urls.id, urls.name
-                ORDER BY urls.id DESC
-            """)
-            return cur.fetchall()
-
 def add_url_check(url_id, status_code, h1=None, title=None, description=None):
     with get_connection() as conn:
         with conn.cursor() as cur:
