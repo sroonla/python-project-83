@@ -1,5 +1,5 @@
 flask
-psycopg2-binary==2.9.9
+psycopg2==2.9.9
 python-dotenv
 requests
 beautifulsoup4
@@ -7,3 +7,4 @@ validators
 gunicorn
 pytest
 coverage
+pytest-flask

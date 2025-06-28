@@ -1,5 +1,6 @@
 import os
 import pytest
+from page_analyzer.app import app as flask_app
 from page_analyzer.db import get_connection
 
 @pytest.fixture(scope="session", autouse=True)
@@ -10,6 +11,7 @@ def setup_test_database():
         pytest.skip("DATABASE_URL not set, skipping database setup")
         return
 
+    conn = None
     try:
         conn = get_connection()
         cur = conn.cursor()
@@ -28,3 +30,11 @@ def setup_test_database():
     finally:
         if conn:
             conn.close()
+
+@pytest.fixture
+def app():
+    return flask_app
+
+@pytest.fixture
+def client(app):
+    return app.test_client()
