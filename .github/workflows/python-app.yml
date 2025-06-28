@@ -52,6 +52,9 @@ jobs:
         pip install pytest-flask
         pip install -e .
 
+    - name: Create report directory
+      run: mkdir -p .report
+
     - name: Run tests with coverage
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
@@ -60,11 +63,16 @@ jobs:
         coverage run --source=page_analyzer -m pytest --json-report
         coverage xml
 
-        
     - name: Verify coverage file
       run: |
         test -f coverage.xml && echo "Coverage file exists" || echo "Coverage file missing"
         ls -lah coverage.xml
+
+    - name: Show report.json
+      run: |
+        ls -lah .report || echo ".report dir not found"
+        ls -lah .report/report.json || echo "report.json not found"
+        cat .report/report.json || echo "report.json is empty"
 
     - name: Prepare for Hexlet action
       run: |
