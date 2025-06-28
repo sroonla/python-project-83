@@ -33,7 +33,10 @@ def setup_test_database():
 
 @pytest.fixture
 def app():
-    return flask_app
+    app = flask_app
+    app.config['TESTING'] = True
+    app.config['SECRET_KEY'] = "test_secret_key"
+    return app
 
 @pytest.fixture
 def client(app):

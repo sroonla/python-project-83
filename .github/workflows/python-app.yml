@@ -55,6 +55,7 @@ jobs:
     - name: Run tests with coverage
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        SECRET_KEY: "dummy_test_secret"
       run: |
         coverage run --source=page_analyzer -m pytest -v
         coverage xml
@@ -63,6 +64,16 @@ jobs:
       run: |
         test -f coverage.xml && echo "Coverage file exists" || echo "Coverage file missing"
         ls -lah coverage.xml
+
+    - name: Prepare for Hexlet action
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libpq-dev python3-dev gcc make
+
+    - name: Run Hexlet action
+      uses: hexlet/project-action@release
+      with:
+        hexlet-id: ${{ secrets.HEXLET_ID }}
         
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master

@@ -1,5 +1,10 @@
 PORT ?= 8000
 
+hexlet-setup:
+	apt-get update
+	sudo apt-get install -y libpq-dev python3-dev gcc make
+	pip install -r requirements.txt
+
 install:
 	sudo apt-get update
 	sudo apt-get install -y libpq-dev python3-dev gcc

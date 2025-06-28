@@ -4,6 +4,8 @@ def test_home_page(client):
     assert 'Анализатор страниц' in response.data.decode('utf-8')
 
 def test_add_url(client):
+    client.application.config['SECRET_KEY'] = "test_secret"
+    
     response = client.post('/urls', data={'url': 'https://example.com'})
     assert response.status_code == 302
     assert '/urls/' in response.location
