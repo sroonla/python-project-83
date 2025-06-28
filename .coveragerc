@@ -1,10 +1,10 @@
 [run]
 source = page_analyzer
-branch = True
-parallel = True
-
-[paths]
-source = page_analyzer
-
-[xml]
-output = coverage.xml
+omit = 
+    page_analyzer/__init__.py
+    tests/*
+    */__pycache__/*
+    
+[report]
+show_missing = True
+fail_under = 0

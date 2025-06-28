@@ -3,6 +3,13 @@ import pytest
 from page_analyzer.app import app as flask_app
 from page_analyzer.db import get_connection
 
+@pytest.fixture
+def app():
+    app = flask_app
+    app.config['TESTING'] = True
+    app.config['SECRET_KEY'] = "test_secret_key"
+    return app
+
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
     db_url = os.getenv("DATABASE_URL")
@@ -30,13 +37,6 @@ def setup_test_database():
     finally:
         if conn:
             conn.close()
-
-@pytest.fixture
-def app():
-    app = flask_app
-    app.config['TESTING'] = True
-    app.config['SECRET_KEY'] = "test_secret_key"
-    return app
 
 @pytest.fixture
 def client(app):
