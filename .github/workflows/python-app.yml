@@ -51,14 +51,15 @@ jobs:
         pip install -r requirements.txt
         pip install pytest-flask
         pip install -e .
-        
+
     - name: Run tests with coverage
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         SECRET_KEY: "dummy_test_secret"
       run: |
-        coverage run --source=page_analyzer -m pytest -v
+        coverage run --source=page_analyzer -m pytest --json-report
         coverage xml
+
         
     - name: Verify coverage file
       run: |
