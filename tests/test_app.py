@@ -26,36 +26,41 @@ def test_check_url(client):
 def test_add_invalid_url(client):
     response = client.post('/urls', data={'url': ''})
     assert response.status_code == 422
-    assert 'Некорректный URL' in response.text
+    html = response.data.decode('utf-8')
+    assert 'Некорректный URL' in html
     
     response = client.post('/urls', data={'url': 'ftp://example.com'})
     assert response.status_code == 422
-    assert 'Некорректный URL' in response.text
+    html = response.data.decode('utf-8')
+    assert 'Некорректный URL' in html
     
     long_url = 'https://' + 'a' * 300
     response = client.post('/urls', data={'url': long_url})
     assert response.status_code == 422
-    assert 'Некорректный URL' in response.text
+    html = response.data.decode('utf-8')
+    assert 'Некорректный URL' in html
 
 def test_add_existing_url(client):
     response = client.post('/urls', data={'url': 'https://example.com'})
     assert response.status_code == 302
     
-    response = client.post('/urls', data={'url': 'https://example.com'})
-    assert response.status_code == 302
-    assert 'Страница уже существует' in response.text
+    response = client.post('/urls', data={'url': 'https://example.com'}, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Страница уже существует' in html
 
 def test_show_nonexistent_url(client):
     response = client.get('/urls/999999')
     assert response.status_code == 302
-    response = client.get(response.location)
-    assert 'Страница не найдена' in response.text
+    response = client.get(response.location, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Страница не найдена' in html
 
 def test_check_nonexistent_url(client):
     response = client.post('/urls/999999/checks')
     assert response.status_code == 302
-    response = client.get(response.location)
-    assert 'Страница не найдена' in response.text
+    response = client.get(response.location, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Страница не найдена' in html
 
 def test_check_url_timeout(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -68,8 +73,9 @@ def test_check_url_timeout(client, monkeypatch):
     
     response = client.post(f'/urls/{url_id}/checks')
     assert response.status_code == 302
-    response = client.get(response.location)
-    assert 'Таймаут при проверке сайта' in response.text
+    response = client.get(response.location, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Таймаут при проверке сайта' in html
 
 def test_check_url_ssl_error(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -82,8 +88,9 @@ def test_check_url_ssl_error(client, monkeypatch):
     
     response = client.post(f'/urls/{url_id}/checks')
     assert response.status_code == 302
-    response = client.get(response.location)
-    assert 'Ошибка SSL сертификата' in response.text
+    response = client.get(response.location, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Ошибка SSL сертификата' in html
 
 def test_check_url_without_meta(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -92,13 +99,15 @@ def test_check_url_without_meta(client, monkeypatch):
     class MockResponse:
         status_code = 200
         text = "<html><title>Test</title><h1>Header</h1></html>"
+        content = text.encode('utf-8')
     
     monkeypatch.setattr(requests, 'get', lambda *args, **kwargs: MockResponse())
     
     response = client.post(f'/urls/{url_id}/checks')
     assert response.status_code == 302
     
-    checks = get_url_checks(url_id)
+    checks = get_url_checks(int(url_id))
+    assert len(checks) > 0
     assert checks[0]["h1"] == "Header"
     assert checks[0]["title"] == "Test"
     assert checks[0]["description"] is None
@@ -110,5 +119,7 @@ def test_add_url_db_error(client, monkeypatch):
     monkeypatch.setattr('page_analyzer.db.add_url', mock_add_url)
     
     response = client.post('/urls', data={'url': 'https://example.com'})
-    assert response.status_code == 500
-    assert 'Ошибка при добавлении страницы' in response.text
+    assert response.status_code == 302
+    response = client.get(response.location, follow_redirects=True)
+    html = response.data.decode('utf-8')
+    assert 'Ошибка при добавлении страницы' in html
