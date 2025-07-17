@@ -3,6 +3,7 @@ import psycopg2
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 import validators
+from datetime import datetime
 
 load_dotenv()
 
@@ -23,27 +24,33 @@ def add_url(url):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO urls (name)
-                VALUES (%s)
-                ON CONFLICT (name) DO NOTHING
+                INSERT INTO urls (name, created_at)
+                VALUES (%s, %s)
+                ON CONFLICT (name) DO UPDATE SET name=EXCLUDED.name
                 RETURNING id
-            """, (normalized_url,))
-            new_id = cur.fetchone()
+            """, (normalized_url, datetime.now()))
+            result = cur.fetchone()
             conn.commit()
-            return new_id[0] if new_id else None
+            return result[0] if result else None
 
 def get_url_by_id(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM urls WHERE id = %s", (url_id,))
-            return cur.fetchone()
+            row = cur.fetchone()
+            if row:
+                return {"id": row[0], "name": row[1], "created_at": row[2]}
+            return None
 
 def get_url_by_name(url):
     normalized_url = normalize_url(url)
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM urls WHERE name = %s", (normalized_url,))
-            return cur.fetchone()
+            row = cur.fetchone()
+            if row:
+                return {"id": row[0], "name": row[1], "created_at": row[2]}
+            return None
 
 def add_url_check(url_id, status_code, h1=None, title=None, description=None):
     with get_connection() as conn:
@@ -54,10 +61,14 @@ def add_url_check(url_id, status_code, h1=None, title=None, description=None):
                     status_code, 
                     h1, 
                     title, 
-                    description
-                ) VALUES (%s, %s, %s, %s, %s)
-            """, (url_id, status_code, h1, title, description))
+                    description,
+                    created_at
+                ) VALUES (%s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (url_id, status_code, h1, title, description, datetime.now()))
+            result = cur.fetchone()
             conn.commit()
+            return result[0] if result else None
 
 def get_url_checks(url_id):
     with get_connection() as conn:
@@ -74,7 +85,17 @@ def get_url_checks(url_id):
                 WHERE url_id = %s 
                 ORDER BY created_at DESC
             """, (url_id,))
-            return cur.fetchall()
+            return [
+                {
+                    "id": row[0],
+                    "status_code": row[1],
+                    "created_at": row[2],
+                    "h1": row[3],
+                    "title": row[4],
+                    "description": row[5]
+                }
+                for row in cur.fetchall()
+            ]
 
 def get_all_urls():
     with get_connection() as conn:
@@ -94,4 +115,12 @@ def get_all_urls():
                 GROUP BY u.id, u.name
                 ORDER BY u.id DESC
             """)
-            return cur.fetchall()
+            return [
+                {
+                    "id": row[0],
+                    "name": row[1],
+                    "last_check": row[2],
+                    "last_status": row[3]
+                }
+                for row in cur.fetchall()
+            ]

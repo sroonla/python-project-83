@@ -8,8 +8,9 @@ test:
     pytest
 
 coverage:
-    coverage run --source=page_analyzer -m pytest
+    coverage run --branch -m pytest
     coverage report
+	coverage html
 
 start:
     gunicorn -w 5 -b 0.0.0.0:$(PORT) wsgi:app
