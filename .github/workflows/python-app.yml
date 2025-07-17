@@ -34,8 +34,14 @@ jobs:
       with:
         python-version: '3.12'
         
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.27.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
+        
     - name: Install system dependencies
-      run: sudo apt-get update && sudo apt-get install -y libpq-dev python3-dev gcc
+      run: sudo apt-get update && sudo apt-get install -y libpq-dev python3-dev gcc make
       
     - name: Cache pip dependencies
       uses: actions/cache@v3
@@ -50,40 +56,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest-flask
-        pip install -e .
-
-    - name: Create report directory
-      run: mkdir -p .report
-
-    - name: Run tests with coverage
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-        SECRET_KEY: "dummy_test_secret"
-      run: |
-        coverage run --source=page_analyzer -m pytest --json-report
-        coverage xml
-
-    - name: Verify coverage file
-      run: |
-        test -f coverage.xml && echo "Coverage file exists" || echo "Coverage file missing"
-        ls -lah coverage.xml
-
-    - name: Show report.json
-      run: |
-        ls -lah .report || echo ".report dir not found"
-        ls -lah .report/report.json || echo "report.json not found"
-        cat .report/report.json || echo "report.json is empty"
-
-    - name: Prepare for Hexlet action
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libpq-dev python3-dev gcc make
-        pip install psycopg2==2.9.9
 
     - name: Run Hexlet action
       uses: hexlet/project-action@release
       with:
         hexlet-id: ${{ secrets.HEXLET_ID }}
+        setup-command: make setup
+        test-command: pytest --json-report
         
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
