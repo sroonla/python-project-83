@@ -1,10 +1,9 @@
 [run]
 source = page_analyzer
-omit = 
-    page_analyzer/__init__.py
-    tests/*
-    */__pycache__/*
-    
+omit = */__init__.py
+
 [report]
-show_missing = True
-fail_under = 0
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
