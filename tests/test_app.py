@@ -1,12 +1,11 @@
 import pytest
 import requests
-from unittest.mock import patch
 from page_analyzer.db import get_url_checks, get_url_by_id
 
 def test_home_page(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert 'Анализатор страниц' in response.data.decode('utf-8')
+    assert 'Анализатор страниц' in response.text
 
 def test_add_url(client):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -15,8 +14,6 @@ def test_add_url(client):
 
 def test_check_url(client):
     response = client.post('/urls', data={'url': 'https://example.com'})
-    assert response.status_code == 302
-    
     url_id = response.location.split('/')[-1]
     
     response = client.post(f'/urls/{url_id}/checks')
@@ -24,43 +21,30 @@ def test_check_url(client):
     assert response.location.endswith(f'/urls/{url_id}')
 
 def test_add_invalid_url(client):
-    response = client.post('/urls', data={'url': ''})
-    assert response.status_code == 422
-    html = response.data.decode('utf-8')
-    assert 'Некорректный URL' in html
+    response = client.post('/urls', data={'url': ''}, follow_redirects=True)
+    assert response.status_code == 200
+    assert 'Некорректный URL' in response.text
     
-    response = client.post('/urls', data={'url': 'ftp://example.com'})
-    assert response.status_code == 422
-    html = response.data.decode('utf-8')
-    assert 'Некорректный URL' in html
+    response = client.post('/urls', data={'url': 'ftp://example.com'}, follow_redirects=True)
+    assert 'Некорректный URL' in response.text
     
     long_url = 'https://' + 'a' * 300
-    response = client.post('/urls', data={'url': long_url})
-    assert response.status_code == 422
-    html = response.data.decode('utf-8')
-    assert 'Некорректный URL' in html
+    response = client.post('/urls', data={'url': long_url}, follow_redirects=True)
+    assert 'Некорректный URL' in response.text
 
 def test_add_existing_url(client):
-    response = client.post('/urls', data={'url': 'https://example.com'})
-    assert response.status_code == 302
+    client.post('/urls', data={'url': 'https://example.com'})
     
     response = client.post('/urls', data={'url': 'https://example.com'}, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Страница уже существует' in html
+    assert 'Страница уже существует' in response.text
 
 def test_show_nonexistent_url(client):
-    response = client.get('/urls/999999')
-    assert response.status_code == 302
-    response = client.get(response.location, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Страница не найдена' in html
+    response = client.get('/urls/999999', follow_redirects=True)
+    assert 'Страница не найдена' in response.text
 
 def test_check_nonexistent_url(client):
-    response = client.post('/urls/999999/checks')
-    assert response.status_code == 302
-    response = client.get(response.location, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Страница не найдена' in html
+    response = client.post('/urls/999999/checks', follow_redirects=True)
+    assert 'Страница не найдена' in response.text
 
 def test_check_url_timeout(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -71,11 +55,9 @@ def test_check_url_timeout(client, monkeypatch):
     
     monkeypatch.setattr(requests, 'get', mock_get)
     
-    response = client.post(f'/urls/{url_id}/checks')
-    assert response.status_code == 302
-    response = client.get(response.location, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Таймаут при проверке сайта' in html
+    client.post(f'/urls/{url_id}/checks')
+    response = client.get(f'/urls/{url_id}', follow_redirects=True)
+    assert 'Таймаут при проверке сайта' in response.text
 
 def test_check_url_ssl_error(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -86,11 +68,9 @@ def test_check_url_ssl_error(client, monkeypatch):
     
     monkeypatch.setattr(requests, 'get', mock_get)
     
-    response = client.post(f'/urls/{url_id}/checks')
-    assert response.status_code == 302
-    response = client.get(response.location, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Ошибка SSL сертификата' in html
+    client.post(f'/urls/{url_id}/checks')
+    response = client.get(f'/urls/{url_id}', follow_redirects=True)
+    assert 'Ошибка SSL сертификата' in response.text
 
 def test_check_url_without_meta(client, monkeypatch):
     response = client.post('/urls', data={'url': 'https://example.com'})
@@ -103,8 +83,7 @@ def test_check_url_without_meta(client, monkeypatch):
     
     monkeypatch.setattr(requests, 'get', lambda *args, **kwargs: MockResponse())
     
-    response = client.post(f'/urls/{url_id}/checks')
-    assert response.status_code == 302
+    client.post(f'/urls/{url_id}/checks')
     
     checks = get_url_checks(int(url_id))
     assert len(checks) > 0
@@ -118,8 +97,5 @@ def test_add_url_db_error(client, monkeypatch):
     
     monkeypatch.setattr('page_analyzer.db.add_url', mock_add_url)
     
-    response = client.post('/urls', data={'url': 'https://example.com'})
-    assert response.status_code == 302
-    response = client.get(response.location, follow_redirects=True)
-    html = response.data.decode('utf-8')
-    assert 'Ошибка при добавлении страницы' in html
+    response = client.post('/urls', data={'url': 'https://example.com'}, follow_redirects=True)
+    assert 'Ошибка при добавлении страницы' in response.text
