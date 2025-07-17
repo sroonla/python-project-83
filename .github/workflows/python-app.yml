@@ -34,12 +34,6 @@ jobs:
       with:
         python-version: '3.12'
         
-    - name: Install Docker Compose
-      run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/v2.27.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version
-        
     - name: Install system dependencies
       run: sudo apt-get update && sudo apt-get install -y libpq-dev python3-dev gcc make
       
@@ -67,13 +61,28 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         SECRET_KEY: "dummy_test_secret"
       run: |
-        coverage run --branch -m pytest
+        coverage run --branch -m pytest --junitxml=test-results.xml
         coverage xml
+        coverage html
         
     - name: Verify coverage file
       run: |
         test -f coverage.xml && echo "Coverage file exists" || echo "Coverage file missing"
         ls -lah coverage.xml
+
+    - name: Generate HTML coverage report
+      run: |
+        echo "HTML coverage report generated at htmlcov/index.html"
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: htmlcov/
+
+    - name: Check coverage threshold
+      run: |
+        coverage report --fail-under=85
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarqube-scan-action@master
@@ -92,18 +101,3 @@ jobs:
           -Dsonar.tests=tests
           -Dsonar.test.inclusions=tests/**/*
           -Dsonar.python.xunit.reportPath=test-results.xml
-
-    - name: Generate HTML coverage report
-      run: |
-       coverage html
-       echo "HTML coverage report generated at htmlcov/index.html"
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: htmlcov/
-
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=85
