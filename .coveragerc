@@ -1,9 +1,18 @@
 [run]
 source = page_analyzer
-omit = */__init__.py
+branch = True
+omit = 
+    */__init__.py
+    */tests/*
+    wsgi.py
 
 [report]
 exclude_lines =
     pragma: no cover
     def __repr__
     raise NotImplementedError
+    if __name__ == .__main__.:
+    @abstractmethod
+    @property
+    @staticmethod
+    @classmethod

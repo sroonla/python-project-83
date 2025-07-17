@@ -89,3 +89,14 @@ jobs:
           -Dsonar.python.coverage.reportPaths=coverage.xml
           -Dsonar.exclusions=tests/**,**/__pycache__/**
           -Dsonar.coverage.exclusions=tests/**,**/__init__.py
+
+    - name: Generate HTML coverage report
+      run: |
+       coverage html
+       echo "HTML coverage report generated at htmlcov/index.html"
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: htmlcov/
