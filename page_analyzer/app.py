@@ -40,7 +40,7 @@ def add_url_handler():
     
     if existing_url:
         flash('Страница уже существует', 'info')
-        return redirect(url_for('show_url', id=existing_url[0]))
+        return redirect(url_for('show_url', id=existing_url['id']))
     
     try:
         url_id = add_url(normalized_url)
