@@ -67,7 +67,7 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         SECRET_KEY: "dummy_test_secret"
       run: |
-        coverage run --source=page_analyzer -m pytest
+        coverage run --branch -m pytest
         coverage xml
         
     - name: Verify coverage file
@@ -88,7 +88,10 @@ jobs:
           -Dsonar.sources=page_analyzer
           -Dsonar.python.coverage.reportPaths=coverage.xml
           -Dsonar.exclusions=tests/**,**/__pycache__/**
-          -Dsonar.coverage.exclusions=tests/**,**/__init__.py
+          -Dsonar.coverage.exclusions=tests/**,**/__init__.py,wsgi.py
+          -Dsonar.tests=tests
+          -Dsonar.test.inclusions=tests/**/*
+          -Dsonar.python.xunit.reportPath=test-results.xml
 
     - name: Generate HTML coverage report
       run: |
@@ -100,3 +103,7 @@ jobs:
       with:
         name: coverage-report
         path: htmlcov/
+
+    - name: Check coverage threshold
+      run: |
+        coverage report --fail-under=85
