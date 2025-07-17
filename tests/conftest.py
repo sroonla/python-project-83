@@ -2,6 +2,7 @@ import os
 import pytest
 from page_analyzer.app import app as flask_app
 from page_analyzer.db import get_connection
+from page_analyzer.db import add_url
 
 @pytest.fixture
 def app():
@@ -41,3 +42,8 @@ def setup_test_database():
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+def test_url(app):
+    with app.app_context():
+        url_id = add_url("https://example.com")
+        return url_id
