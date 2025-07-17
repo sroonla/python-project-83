@@ -73,7 +73,7 @@ def check_url(id):
         flash('Страница не найдена', 'danger')
         return redirect(url_for('index'))
     
-    url_name = url_data[1]
+    url_name = url_data['name']
     
     try:
         headers = {
