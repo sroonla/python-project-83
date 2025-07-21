@@ -25,6 +25,7 @@ def inject_current_year():
 @app.route('/')
 def index():
     messages = get_flashed_messages(with_categories=True)
+    app.logger.debug(f"Flash messages on index: {messages}")
     return render_template('index.html', messages=messages)
 
 @app.route('/urls', methods=['POST'])
@@ -49,8 +50,10 @@ def add_url_handler():
     except Exception as e:
         app.logger.error(f"Database error: {str(e)}")
 
+        app.logger.info("Setting flash message: 'Ошибка при добавлении страницы'")
         flash('Ошибка при добавлении страницы', 'danger')
-        
+
+        app.logger.info("Redirecting to index")
         return redirect(url_for('index'))
 
 @app.route('/urls')
