@@ -17,7 +17,13 @@ def normalize_url(url):
     return f"{parsed.scheme}://{parsed.netloc}"
 
 def is_valid_url(url):
-    return bool(validators.url(url)) and len(url) <= 255
+    if not url:
+        return False
+    if len(url) > 255:
+        return False
+    if not validators.url(url):
+        return False
+    return url.startswith(('http://', 'https://'))
 
 def add_url(url):
     normalized_url = normalize_url(url)
