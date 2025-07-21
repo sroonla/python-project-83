@@ -112,7 +112,7 @@ def test_add_url_db_error(client, monkeypatch):
     def mock_add_url(url):
         raise Exception("Database error")
     
-    monkeypatch.setattr('page_analyzer.db.add_url', mock_add_url)
+    monkeypatch.setattr('page_analyzer.app.add_url', mock_add_url)
 
     with client:
         with client.session_transaction() as session:
