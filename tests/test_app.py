@@ -1,6 +1,7 @@
 import pytest
 import requests
 from page_analyzer.db import get_url_checks, get_url_by_id
+from flask import get_flashed_messages
 
 def test_home_page(client):
     response = client.get('/')
@@ -115,7 +116,7 @@ def test_add_url_db_error(client, monkeypatch):
     
     with client.session_transaction() as session:
         session.clear()
-        
+
     response = client.post(
         '/urls',
         data={'url': 'https://example.com'},
