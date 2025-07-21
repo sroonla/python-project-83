@@ -113,6 +113,7 @@ def test_add_url_db_error(client, monkeypatch):
     def mock_add_url(url):
         raise Exception("Database error")
     
+    from page_analyzer.app import add_url as real_add_url
     monkeypatch.setattr('page_analyzer.app.add_url', mock_add_url)
 
     with client:
