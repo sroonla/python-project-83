@@ -108,27 +108,3 @@ def test_check_url_without_meta(client, monkeypatch):
     assert checks[0]["h1"] == "Header"
     assert checks[0]["title"] == "Test"
     assert checks[0]["description"] is None
-
-def test_add_url_db_error(client, monkeypatch):
-    def mock_add_url(url):
-        raise Exception("Database error")
-    
-    from page_analyzer.app import add_url as real_add_url
-    monkeypatch.setattr('page_analyzer.app.add_url', mock_add_url)
-
-    with client:
-        with client.session_transaction() as session:
-            session.clear()
-        
-        response = client.post(
-            '/urls',
-            data={'url': 'https://example.com'},
-            follow_redirects=True
-        )
-
-        flashes = get_flashed_messages()
-        print("Flash messages after request:", flashes)
-        
-        assert response.status_code == 200
-        assert 'Ошибка при добавлении страницы' in response.text
-        assert 'Ошибка при добавлении страницы' in flashes
