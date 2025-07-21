@@ -2,6 +2,7 @@ import pytest
 import requests
 from page_analyzer.db import get_url_checks, get_url_by_id
 from flask import get_flashed_messages
+from page_analyzer import app as app_module
 
 def test_home_page(client):
     response = client.get('/')
@@ -112,7 +113,7 @@ def test_add_url_db_error(client, monkeypatch):
     def mock_add_url(url):
         raise Exception("Database error")
     
-    monkeypatch.setattr('page_analyzer.app.add_url', mock_add_url)
+    monkeypatch.setattr(app_module, 'add_url', mock_add_url)
 
     with client:
         with client.session_transaction() as session:
