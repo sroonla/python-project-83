@@ -97,12 +97,20 @@ def test_check_url_without_meta(client, monkeypatch):
     
     # Мокаем ответ сервера
     class MockResponse:
-        status_code = 200
-        text = "<html><title>Test</title><h1>Header</h1></html>"
-        content = text.encode('utf-8')
-        history = []  # Добавляем для обработки редиректов
+        def __init__(self):
+            status_code = 200
+            self.text = "<html><title>Test</title><h1>Header</h1></html>"
+            self.content = self.text.encode('utf-8')
+            self.history = []
+            self.headers = {'Content-Type': 'text/html'}
+        
+        def raise_for_status(self):
+            pass
+
+    def mock_get(*args, **kwargs):
+        return MockResponse()
     
-    monkeypatch.setattr(requests, 'get', lambda *args, **kwargs: MockResponse())
+    monkeypatch.setattr(requests, 'get', mock_get)
     
     # Выполняем проверку
     client.post(f'/urls/{url_id}/checks')
