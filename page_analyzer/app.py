@@ -47,8 +47,8 @@ def add_url_handler():
         flash('Страница успешно добавлена', 'success')
         return redirect(url_for('show_url', id=url_id))
     except Exception as e:
-        flash(f'Ошибка при добавлении страницы: {str(e)}', 'danger')
-        return render_template('index.html', url=url), 500
+        flash('Ошибка при добавлении страницы', 'danger')
+        return render_template('index.html', url=normalized_url), 500
 
 @app.route('/urls')
 def list_urls():
