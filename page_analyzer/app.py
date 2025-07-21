@@ -47,7 +47,10 @@ def add_url_handler():
         flash('Страница успешно добавлена', 'success')
         return redirect(url_for('show_url', id=url_id))
     except Exception as e:
+        app.logger.error(f"Database error: {str(e)}")
+
         flash('Ошибка при добавлении страницы', 'danger')
+        
         return redirect(url_for('index'))
 
 @app.route('/urls')
