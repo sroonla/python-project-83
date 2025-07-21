@@ -116,6 +116,7 @@ def test_add_url_db_error(client, monkeypatch):
     response = client.post(
         '/urls',
         data={'url': 'https://example.com'},
+        follow_redirects=True
     )
-    assert response.status_code == 500
+    assert response.status_code == 200
     assert 'Ошибка при добавлении страницы' in response.text
