@@ -113,11 +113,22 @@ def test_add_url_db_error(client, monkeypatch):
     
     monkeypatch.setattr('page_analyzer.db.add_url', mock_add_url)
     
+    with client.session_transaction() as session:
+        session.clear()
+        
     response = client.post(
         '/urls',
         data={'url': 'https://example.com'},
         follow_redirects=True
     )
+
+    print("="*80)
+    print("Response status code:", response.status_code)
+    print("Response text length:", len(response.text))
+    print("Flash messages in session:", get_flashed_messages())
+    print("Response text snippet:", response.text[:500])
+    print("="*80)
+
     assert response.status_code == 200
     assert 'Ошибка при добавлении страницы' in response.text
     assert 'Анализатор страниц' in response.text
