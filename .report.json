@@ -1,13 +1,13 @@
 {
-  "created": 1753134880.9991953,
-  "duration": 2.1628808975219727,
-  "exitcode": 1,
+  "created": 1753139074.257241,
+  "duration": 11.888257503509521,
+  "exitcode": 0,
   "root": "/mnt/c/Users/sr0on/Projects/python-project-83",
   "environment": {},
   "summary": {
-    "failed": 1,
-    "total": 1,
-    "collected": 1
+    "passed": 10,
+    "total": 10,
+    "collected": 10
   },
   "collectors": [
     {
@@ -15,41 +15,236 @@
       "outcome": "passed",
       "result": [
         {
-          "nodeid": "tests/test_app.py::test_add_url_db_error",
+          "nodeid": "tests/test_app.py",
+          "type": "Module"
+        }
+      ]
+    },
+    {
+      "nodeid": "tests/test_app.py",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_app.py::test_home_page",
           "type": "Function",
-          "lineno": 110
+          "lineno": 6
+        },
+        {
+          "nodeid": "tests/test_app.py::test_add_url",
+          "type": "Function",
+          "lineno": 11
+        },
+        {
+          "nodeid": "tests/test_app.py::test_check_url",
+          "type": "Function",
+          "lineno": 16
+        },
+        {
+          "nodeid": "tests/test_app.py::test_add_invalid_url",
+          "type": "Function",
+          "lineno": 24
+        },
+        {
+          "nodeid": "tests/test_app.py::test_add_existing_url",
+          "type": "Function",
+          "lineno": 38
+        },
+        {
+          "nodeid": "tests/test_app.py::test_show_nonexistent_url",
+          "type": "Function",
+          "lineno": 45
+        },
+        {
+          "nodeid": "tests/test_app.py::test_check_nonexistent_url",
+          "type": "Function",
+          "lineno": 50
+        },
+        {
+          "nodeid": "tests/test_app.py::test_check_url_timeout",
+          "type": "Function",
+          "lineno": 55
+        },
+        {
+          "nodeid": "tests/test_app.py::test_check_url_ssl_error",
+          "type": "Function",
+          "lineno": 69
+        },
+        {
+          "nodeid": "tests/test_app.py::test_check_url_without_meta",
+          "type": "Function",
+          "lineno": 83
         }
       ]
     }
   ],
   "tests": [
     {
-      "nodeid": "tests/test_app.py::test_add_url_db_error",
-      "lineno": 110,
-      "outcome": "failed",
+      "nodeid": "tests/test_app.py::test_home_page",
+      "lineno": 6,
+      "outcome": "passed",
       "setup": {
-        "duration": 0.10217970295343548,
+        "duration": 0.19071268697734922,
         "outcome": "passed"
       },
       "call": {
-        "duration": 0.06672056601382792,
-        "outcome": "failed",
-        "crash": {
-          "path": "/mnt/c/Users/sr0on/Projects/python-project-83/tests/test_app.py",
-          "lineno": 131,
-          "message": "assert '\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0438 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b' in '<!DOCTYPE html>\\n<html lang=\"ru\">\\n<head>\\n    <meta charset=\"UTF-8\">\\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\n    <title>\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</title>\\n    \\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\\n    \\n    <style>\\n        body {\\n            padding-top: 3rem;\\n            padding-bottom: 3rem;\\n        }\\n        .footer {\\n            background-color: #f5f5f5;\\n            padding: 1.5rem 0;\\n        }\\n    </style>\\n</head>\\n<body>\\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\\n        <div class=\"container\">\\n            <a class=\"navbar-brand\" href=\"/\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</a>\\n            <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">\\n                <span class=\"navbar-toggler-icon\"></span>\\n            </button>\\n            <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\\n                <ul class=\"navbar-nav\">\\n                    <li class=\"nav-item\">\\n                        <a class=\"nav-link\" href=\"/\">\u0413\u043b\u0430\u0432\u043d\u0430\u044f</a>\\n                    </li>\\n                    <li class=\"nav-it...\u0440\u043e\u0432\u0435\u0440\u043a\u0438</h2>\\n<form method=\"post\" action=\"/urls/2/checks\">\\n    <button type=\"submit\" class=\"btn btn-primary\">\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443</button>\\n</form>\\n\\n<div class=\"table-responsive\">\\n    <table class=\"table table-bordered table-hover mt-2\" data-test=\"checks\">\\n        <thead>\\n            <tr>\\n                <th>ID</th>\\n                <th>\u041a\u043e\u0434 \u043e\u0442\u0432\u0435\u0442\u0430</th>\\n                <th>h1</th>\\n                <th>Title</th>\\n                <th>Description</th>\\n                <th>\u0414\u0430\u0442\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438</th>\\n            </tr>\\n        </thead>\\n        <tbody>\\n            \\n            <tr>\\n                <td colspan=\"6\" class=\"text-center\">\u041f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043f\u043e\u043a\u0430 \u043d\u0435\u0442</td>\\n            </tr>\\n            \\n        </tbody>\\n    </table>\\n</div>\\n\\n    </main>\\n\\n    <footer class=\"footer mt-auto py-3 bg-light\">\\n        <div class=\"container\">\\n            <span class=\"text-muted\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446 \u00a9 2025</span>\\n        </div>\\n    </footer>\\n\\n    <script \\n        src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"\\n        integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\"\\n        crossorigin=\"anonymous\"></script>\\n</body>\\n</html>'\n +  where '<!DOCTYPE html>\\n<html lang=\"ru\">\\n<head>\\n    <meta charset=\"UTF-8\">\\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\n    <title>\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</title>\\n    \\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\\n    \\n    <style>\\n        body {\\n            padding-top: 3rem;\\n            padding-bottom: 3rem;\\n        }\\n        .footer {\\n            background-color: #f5f5f5;\\n            padding: 1.5rem 0;\\n        }\\n    </style>\\n</head>\\n<body>\\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\\n        <div class=\"container\">\\n            <a class=\"navbar-brand\" href=\"/\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</a>\\n            <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">\\n                <span class=\"navbar-toggler-icon\"></span>\\n            </button>\\n            <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\\n                <ul class=\"navbar-nav\">\\n                    <li class=\"nav-item\">\\n                        <a class=\"nav-link\" href=\"/\">\u0413\u043b\u0430\u0432\u043d\u0430\u044f</a>\\n                    </li>\\n                    <li class=\"nav-it...\u0440\u043e\u0432\u0435\u0440\u043a\u0438</h2>\\n<form method=\"post\" action=\"/urls/2/checks\">\\n    <button type=\"submit\" class=\"btn btn-primary\">\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443</button>\\n</form>\\n\\n<div class=\"table-responsive\">\\n    <table class=\"table table-bordered table-hover mt-2\" data-test=\"checks\">\\n        <thead>\\n            <tr>\\n                <th>ID</th>\\n                <th>\u041a\u043e\u0434 \u043e\u0442\u0432\u0435\u0442\u0430</th>\\n                <th>h1</th>\\n                <th>Title</th>\\n                <th>Description</th>\\n                <th>\u0414\u0430\u0442\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438</th>\\n            </tr>\\n        </thead>\\n        <tbody>\\n            \\n            <tr>\\n                <td colspan=\"6\" class=\"text-center\">\u041f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043f\u043e\u043a\u0430 \u043d\u0435\u0442</td>\\n            </tr>\\n            \\n        </tbody>\\n    </table>\\n</div>\\n\\n    </main>\\n\\n    <footer class=\"footer mt-auto py-3 bg-light\">\\n        <div class=\"container\">\\n            <span class=\"text-muted\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446 \u00a9 2025</span>\\n        </div>\\n    </footer>\\n\\n    <script \\n        src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"\\n        integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\"\\n        crossorigin=\"anonymous\"></script>\\n</body>\\n</html>' = <WrapperTestResponse 3589 bytes [200 OK]>.text"
-        },
-        "traceback": [
-          {
-            "path": "tests/test_app.py",
-            "lineno": 131,
-            "message": "AssertionError"
-          }
-        ],
-        "longrepr": "client = <FlaskClient <Flask 'page_analyzer.app'>>, monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72c93da90530>\n\n    def test_add_url_db_error(client, monkeypatch):\n        def mock_add_url(url):\n            raise Exception(\"Database error\")\n    \n        monkeypatch.setattr('page_analyzer.db.add_url', mock_add_url)\n    \n        with client:\n            with client.session_transaction() as session:\n                session.clear()\n    \n            response = client.post(\n                '/urls',\n                data={'url': 'https://example.com'},\n                follow_redirects=True\n            )\n    \n            flashes = get_flashed_messages()\n            print(\"Flash messages after request:\", flashes)\n    \n            assert response.status_code == 200\n>           assert '\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0438 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b' in response.text\nE           assert '\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0438 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b' in '<!DOCTYPE html>\\n<html lang=\"ru\">\\n<head>\\n    <meta charset=\"UTF-8\">\\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\n    <title>\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</title>\\n    \\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\\n    \\n    <style>\\n        body {\\n            padding-top: 3rem;\\n            padding-bottom: 3rem;\\n        }\\n        .footer {\\n            background-color: #f5f5f5;\\n            padding: 1.5rem 0;\\n        }\\n    </style>\\n</head>\\n<body>\\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\\n        <div class=\"container\">\\n            <a class=\"navbar-brand\" href=\"/\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</a>\\n            <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">\\n                <span class=\"navbar-toggler-icon\"></span>\\n            </button>\\n            <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\\n                <ul class=\"navbar-nav\">\\n                    <li class=\"nav-item\">\\n                        <a class=\"nav-link\" href=\"/\">\u0413\u043b\u0430\u0432\u043d\u0430\u044f</a>\\n                    </li>\\n                    <li class=\"nav-it...\u0440\u043e\u0432\u0435\u0440\u043a\u0438</h2>\\n<form method=\"post\" action=\"/urls/2/checks\">\\n    <button type=\"submit\" class=\"btn btn-primary\">\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443</button>\\n</form>\\n\\n<div class=\"table-responsive\">\\n    <table class=\"table table-bordered table-hover mt-2\" data-test=\"checks\">\\n        <thead>\\n            <tr>\\n                <th>ID</th>\\n                <th>\u041a\u043e\u0434 \u043e\u0442\u0432\u0435\u0442\u0430</th>\\n                <th>h1</th>\\n                <th>Title</th>\\n                <th>Description</th>\\n                <th>\u0414\u0430\u0442\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438</th>\\n            </tr>\\n        </thead>\\n        <tbody>\\n            \\n            <tr>\\n                <td colspan=\"6\" class=\"text-center\">\u041f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043f\u043e\u043a\u0430 \u043d\u0435\u0442</td>\\n            </tr>\\n            \\n        </tbody>\\n    </table>\\n</div>\\n\\n    </main>\\n\\n    <footer class=\"footer mt-auto py-3 bg-light\">\\n        <div class=\"container\">\\n            <span class=\"text-muted\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446 \u00a9 2025</span>\\n        </div>\\n    </footer>\\n\\n    <script \\n        src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"\\n        integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\"\\n        crossorigin=\"anonymous\"></script>\\n</body>\\n</html>'\nE            +  where '<!DOCTYPE html>\\n<html lang=\"ru\">\\n<head>\\n    <meta charset=\"UTF-8\">\\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\n    <title>\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</title>\\n    \\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\\n    \\n    <style>\\n        body {\\n            padding-top: 3rem;\\n            padding-bottom: 3rem;\\n        }\\n        .footer {\\n            background-color: #f5f5f5;\\n            padding: 1.5rem 0;\\n        }\\n    </style>\\n</head>\\n<body>\\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\\n        <div class=\"container\">\\n            <a class=\"navbar-brand\" href=\"/\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446</a>\\n            <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">\\n                <span class=\"navbar-toggler-icon\"></span>\\n            </button>\\n            <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\\n                <ul class=\"navbar-nav\">\\n                    <li class=\"nav-item\">\\n                        <a class=\"nav-link\" href=\"/\">\u0413\u043b\u0430\u0432\u043d\u0430\u044f</a>\\n                    </li>\\n                    <li class=\"nav-it...\u0440\u043e\u0432\u0435\u0440\u043a\u0438</h2>\\n<form method=\"post\" action=\"/urls/2/checks\">\\n    <button type=\"submit\" class=\"btn btn-primary\">\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443</button>\\n</form>\\n\\n<div class=\"table-responsive\">\\n    <table class=\"table table-bordered table-hover mt-2\" data-test=\"checks\">\\n        <thead>\\n            <tr>\\n                <th>ID</th>\\n                <th>\u041a\u043e\u0434 \u043e\u0442\u0432\u0435\u0442\u0430</th>\\n                <th>h1</th>\\n                <th>Title</th>\\n                <th>Description</th>\\n                <th>\u0414\u0430\u0442\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438</th>\\n            </tr>\\n        </thead>\\n        <tbody>\\n            \\n            <tr>\\n                <td colspan=\"6\" class=\"text-center\">\u041f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043f\u043e\u043a\u0430 \u043d\u0435\u0442</td>\\n            </tr>\\n            \\n        </tbody>\\n    </table>\\n</div>\\n\\n    </main>\\n\\n    <footer class=\"footer mt-auto py-3 bg-light\">\\n        <div class=\"container\">\\n            <span class=\"text-muted\">\u0410\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446 \u00a9 2025</span>\\n        </div>\\n    </footer>\\n\\n    <script \\n        src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"\\n        integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\"\\n        crossorigin=\"anonymous\"></script>\\n</body>\\n</html>' = <WrapperTestResponse 3589 bytes [200 OK]>.text\n\ntests/test_app.py:131: AssertionError"
+        "duration": 0.027507489954587072,
+        "outcome": "passed"
       },
       "teardown": {
-        "duration": 0.0002245100331492722,
+        "duration": 0.00026949599850922823,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_add_url",
+      "lineno": 11,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0006661319639533758,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.04276097100228071,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.0002216470311395824,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_check_url",
+      "lineno": 16,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0006378070102073252,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 11.079985077027231,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.00021898798877373338,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_add_invalid_url",
+      "lineno": 24,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.000596466998104006,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.0020699870074167848,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.0002081720158457756,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_add_existing_url",
+      "lineno": 38,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0006864820024929941,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.062177251966204494,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.000243095972109586,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_show_nonexistent_url",
+      "lineno": 45,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0007199390092864633,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.011549101036507636,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.00023255503037944436,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_check_nonexistent_url",
+      "lineno": 50,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0005214849952608347,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.011069691041484475,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.00025418802397325635,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_check_url_timeout",
+      "lineno": 55,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0005207509966567159,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.04113702801987529,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.0002948869951069355,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_check_url_ssl_error",
+      "lineno": 69,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0006525659700855613,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.04371676599839702,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.0002364969695918262,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_app.py::test_check_url_without_meta",
+      "lineno": 83,
+      "outcome": "passed",
+      "setup": {
+        "duration": 0.0006451410008594394,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.04735230596270412,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 0.0003066210192628205,
         "outcome": "passed"
       }
     }

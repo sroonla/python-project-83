@@ -23,7 +23,7 @@ def is_valid_url(url):
         return False
     if not validators.url(url):
         return False
-    return url.startswith(('http://', 'https://'))
+    return url.startswith(('https://'))
 
 def add_url(url):
     normalized_url = normalize_url(url)
