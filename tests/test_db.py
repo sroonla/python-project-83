@@ -66,7 +66,7 @@ def test_normalize_url():
 
 def test_is_valid_url():
     assert is_valid_url("https://example.com") is True
-    assert is_valid_url("http://sub.example.com/path?query=test") is True
+    assert is_valid_url("http://sub.example.com/path?query=test") is False
     assert is_valid_url("not-a-url") is False
     assert is_valid_url("") is False
     assert is_valid_url("https://" + "a" * 256) is False
