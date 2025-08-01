@@ -8,3 +8,17 @@ venv/
 *.sqlite
 *.log
 instance/
+.hexlet/
+*.egg-info/
+dist/
+build/
+setup.py
+.coverage
+.coveragerc
+.report.json
+.pytest_cache/
+gunicorn_server.py
+run.py
+runtime.txt
+wsgi.py
+tox.ini
