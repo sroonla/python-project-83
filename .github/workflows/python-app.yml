@@ -50,11 +50,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest-json-report pytest-flask
-
-    - name: Run Hexlet action
-      uses: hexlet/project-action@release
-      with:
-        hexlet-id: ${{ secrets.HEXLET_ID }}
         
     - name: Run tests with coverage
       env:
