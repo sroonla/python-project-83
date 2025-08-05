@@ -68,6 +68,7 @@ def test_is_valid_url():
     assert is_valid_url("https://example.com") is True
     assert is_valid_url("http://sub.example.com/path?query=test") is True
     assert is_valid_url("http://localhost:8000") is True
+    assert is_valid_url("http://127.0.0.1:5000") is True
     assert is_valid_url("https://example.co.uk") is True
     assert is_valid_url("http://user:pass@example.com") is True
 
@@ -83,3 +84,7 @@ def test_is_valid_url():
     long_url = "https://example.com/" + "a" * 240
     assert len(long_url) > 255
     assert is_valid_url(long_url) is False
+
+    assert is_valid_url("http://myapp.local") is True
+    assert is_valid_url("https://test-server") is True
+    assert is_valid_url("http://.invalid") is False
