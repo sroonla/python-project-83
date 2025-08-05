@@ -20,13 +20,11 @@ def setup_test_database():
         return
 
     conn = None
-    print("Current working directory:", os.getcwd())
-    print("Files in current directory:", os.listdir('.'))
     try:
         conn = get_connection()
         cur = conn.cursor()
         
-        with open('/app/database.sql', 'r') as f:
+        with open('database.sql', 'r') as f:
             sql_script = f.read()
             
             commands = sql_script.split(';')
