@@ -66,7 +66,13 @@ def test_normalize_url():
 
 def test_is_valid_url():
     assert is_valid_url("https://example.com") is True
-    assert is_valid_url("http://sub.example.com/path?query=test") is False
-    assert is_valid_url("not-a-url") is False
+    assert is_valid_url("http://sub.example.com/path?query=test") is True
+
     assert is_valid_url("") is False
-    assert is_valid_url("https://" + "a" * 256) is False
+    assert is_valid_url("ftp://example.com") is False
+    assert is_valid_url("https://") is False
+    assert is_valid_url("https://no_dot") is False
+    assert is_valid_url("https://example.") is False
+    assert is_valid_url("justastring") is False
+    long_url = "https://example.com/" + "a" * 240
+    assert is_valid_url(long_url) is False
