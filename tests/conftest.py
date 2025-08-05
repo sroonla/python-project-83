@@ -19,17 +19,12 @@ def setup_test_database():
         pytest.skip("DATABASE_URL not set, skipping database setup")
         return
 
-    db_sql_path = '/project/database.sql'
-    
-    if not os.path.exists(db_sql_path):
-        pytest.fail(f"database.sql not found at {db_sql_path}")
-
     conn = None
     try:
         conn = get_connection()
         cur = conn.cursor()
         
-        with open(db_sql_path, 'r') as f:
+        with open('database.sql', 'r') as f:
             sql_script = f.read()
             
             commands = sql_script.split(';')
@@ -52,4 +47,3 @@ def test_url(app):
     with app.app_context():
         url_id = add_url("https://example.com")
         return url_id
-    
