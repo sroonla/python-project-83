@@ -41,12 +41,12 @@ def add_url_handler():
     
     if existing_url:
         flash('Страница уже существует', 'info')
-        return redirect(url_for('list_urls'))
+        return redirect(url_for('show_url', id=existing_url['id']))
     
     try:
         url_id = add_url(normalized_url)
         flash('Страница успешно добавлена', 'success')
-        return redirect(url_for('list_urls'))
+        return redirect(url_for('show_url', id=url_id))
     except Exception as e:
         app.logger.error(f"Database error: {str(e)}")
         flash('Ошибка при добавлении страницы', 'danger')
