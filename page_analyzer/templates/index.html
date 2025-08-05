@@ -29,7 +29,7 @@
                                placeholder="https://example.com" 
                                value="{{ url if url else '' }}"
                                required>
-                        <button class="btn btn-primary btn-lg" type="submit">Анализировать</button>
+                        <input type="submit" class="btn btn-primary btn-lg" value="Анализировать">
                     </div>
                     {% if error %}
                         <div class="invalid-feedback d-block">{{ error }}</div>
