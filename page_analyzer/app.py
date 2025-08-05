@@ -5,6 +5,7 @@ from flask import (
     Flask, render_template, request, 
     redirect, url_for, flash, get_flashed_messages
 )
+from page_analyzer.db import init_db
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from .db import (
@@ -18,6 +19,10 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+@app.before_first_request
+def init_database():
+    init_db()
+    
 @app.context_processor
 def inject_current_year():
     return {'current_year': datetime.datetime.now().year}

@@ -21,9 +21,12 @@ def is_valid_url(url):
         return False
     if len(url) > 255:
         return False
-    if not validators.url(url):
+    
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except ValueError:
         return False
-    return url.startswith(('https://'))
 
 def add_url(url):
     normalized_url = normalize_url(url)
@@ -130,3 +133,29 @@ def get_all_urls():
                 }
                 for row in cur.fetchall()
             ]
+        
+def init_db():
+    conn = get_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS urls (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(255) NOT NULL UNIQUE,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS url_checks (
+                    id SERIAL PRIMARY KEY,
+                    url_id INTEGER NOT NULL REFERENCES urls(id),
+                    status_code INTEGER,
+                    h1 VARCHAR(255),
+                    title VARCHAR(255),
+                    description TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            conn.commit()
+    finally:
+        conn.close()
