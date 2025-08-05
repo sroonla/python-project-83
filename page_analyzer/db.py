@@ -25,12 +25,18 @@ def is_valid_url(url):
     if not url.startswith(('http://', 'https://')):
         return False
     
-    parts = url.split('/')
-    if len(parts) < 3 or not parts[2]:
+    domain_part = url.split('/')[2] if len(url.split('/')) > 2 else ''
+
+    domain = domain_part.split(':')[0]
+
+    if not domain:
         return False
     
-    domain = parts[2]
     if '.' not in domain:
+        return False
+    
+    parts = domain.split('.')
+    if not parts[-1]:
         return False
     
     return True
