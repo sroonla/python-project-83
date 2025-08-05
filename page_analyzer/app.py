@@ -65,8 +65,7 @@ def show_url(id):
         return redirect(url_for('index'))
     
     checks = get_url_checks(id)
-    messages = get_flashed_messages(with_categories=True)
-    return render_template('urls/show.html', url=url, checks=checks, messages=messages)
+    return render_template('urls/show.html', url=url, checks=checks)
 
 @app.post('/urls/<int:id>/checks')
 def check_url(id):
