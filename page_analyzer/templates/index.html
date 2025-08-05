@@ -8,17 +8,6 @@
         <hr class="my-4">
         <p>Просто введите URL сайта, и мы проанализируем его по нескольким ключевым параметрам.</p>
         
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
         <form action="/urls" method="POST" class="mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
