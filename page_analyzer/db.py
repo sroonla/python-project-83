@@ -32,21 +32,28 @@ def is_valid_url(url):
         if not netloc:
             return False
         
-        if not netloc.split(':')[0]:
+        domain = netloc.split(':')[0]
+
+        if not domain:
             return False
         
-        if netloc.startswith('localhost') or netloc.startswith('127.0.0.'):
+        if domain == 'localhost' or domain.startswith('127.0.0.') or domain.startswith('192.168.'):
             return True
         
-        if '.' not in netloc:
+        if domain.replace('.', '').isdigit():
+            return True
+        
+        if '.' not in domain:
             return False
         
-        if netloc.endswith('.'):
+        if domain.startswith('.') or domain.endswith('.'):
             return False
         
-        if not netloc.split('.')[-1]:
-            return False
-        
+        parts = domain.split('.')
+        for part in parts:
+            if not part:
+                return False
+
         return True
     except ValueError:
         return False
