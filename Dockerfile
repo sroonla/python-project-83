@@ -7,7 +7,7 @@ RUN apt-get update && \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+WORKDIR /project
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
