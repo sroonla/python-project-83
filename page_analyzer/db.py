@@ -43,6 +43,9 @@ def is_valid_url(url):
         if domain.replace('.', '').isdigit():
             return True
         
+        if not all(c.isalnum() or c in '.-_' for c in domain):
+            return False
+        
         if '.' not in domain:
             return False
         
