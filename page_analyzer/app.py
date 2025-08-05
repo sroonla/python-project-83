@@ -3,8 +3,7 @@ import datetime
 import requests
 from flask import (
     Flask, render_template, request, 
-    redirect, url_for, flash, get_flashed_messages,
-    session
+    redirect, url_for, flash, get_flashed_messages
 )
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -41,13 +40,13 @@ def add_url_handler():
     existing_url = get_url_by_name(normalized_url)
     
     if existing_url:
-        session['flash_message'] = ('Страница уже существует', 'info')
-        return redirect(url_for('list_urls'))
+        flash('Страница уже существует', 'info')
+        return redirect(url_for('show_url', id=existing_url['id']))
     
     try:
         url_id = add_url(normalized_url)
-        session['flash_message'] = ('Страница успешно добавлена', 'success')
-        return redirect(url_for('list_urls'))
+        flash('Страница успешно добавлена', 'success')
+        return redirect(url_for('show_url', id=url_id))
     except Exception as e:
         app.logger.error(f"Database error: {str(e)}")
         flash('Ошибка при добавлении страницы', 'danger')
@@ -55,10 +54,6 @@ def add_url_handler():
 
 @app.route('/urls')
 def list_urls():
-    if 'flash_message' in session:
-        message, category = session.pop('flash_message')
-        flash(message, category)
-    
     urls = get_all_urls()
     return render_template('urls/index.html', urls=urls)
 
