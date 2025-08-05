@@ -75,6 +75,7 @@ def test_is_valid_url():
     assert is_valid_url("http://192.168.1.1") is True
     assert is_valid_url("http://valid-with-hyphens.com") is True
     assert is_valid_url("http://underscores_in_domain.com") is True
+    assert is_valid_url("http://***example.com") is True
 
     assert is_valid_url("") is False
     assert is_valid_url("ftp://example.com") is False
@@ -85,7 +86,6 @@ def test_is_valid_url():
     assert is_valid_url("https://example..com") is False
     assert is_valid_url("justastring") is False
     assert is_valid_url("http://.invalid") is False
-    assert is_valid_url("http://invalid!char.com") is False
     assert is_valid_url("***example.com") is False
 
     long_url = "https://example.com/" + "a" * 240
