@@ -22,11 +22,15 @@ def is_valid_url(url):
     if len(url) > 255:
         return False
     
-    try:
-        result = urlparse(url)
-        return all([result.scheme, result.netloc])
-    except ValueError:
+    parts = url.split("://")
+    if len(parts) < 2:
         return False
+    
+    domain = parts[1].split("/")[0]
+    if "." not in domain:
+        return False
+    
+    return True
 
 def add_url(url):
     normalized_url = normalize_url(url)

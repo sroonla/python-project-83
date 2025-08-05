@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 COPY . .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "page_analyzer:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "page_analyzer.app:app"]
