@@ -18,9 +18,6 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-with app.app_context():
-    init_db()
-
 @app.context_processor
 def inject_current_year():
     return {'current_year': datetime.datetime.now().year}
