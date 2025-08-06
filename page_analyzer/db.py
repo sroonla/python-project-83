@@ -151,11 +151,11 @@ def init_db():
                 );
             """)
             conn.commit()
-        except psycopg2.errors.DuplicateTable:
-            conn.rollback()
-            print("Tables already exist, skipping creation")
-        except psycopg2.errors.UniqueViolation:
-            conn.rollback()
-            print("Tables already exist, skipping creation")
+    except psycopg2.errors.DuplicateTable:
+        conn.rollback()
+        print("Tables already exist, skipping creation")
+    except psycopg2.errors.UniqueViolation:
+        conn.rollback()
+        print("Tables already exist, skipping creation")
     finally:
         conn.close()
