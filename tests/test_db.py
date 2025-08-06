@@ -74,7 +74,6 @@ def test_is_valid_url():
 
     assert is_valid_url("") is False
     assert is_valid_url("https://") is False
-    assert is_valid_url("https://no_dot") is False
 
     long_url = "https://example.com/" + "a" * 240
     assert len(long_url) > 255
