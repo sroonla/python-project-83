@@ -39,17 +39,18 @@ def add_url_handler():
         flash('Некорректный URL', 'danger')
         return render_template('index.html', url=url), 422
     
-    normalized_url = normalize_url(url)
-    existing_url = get_url_by_name(normalized_url)
-    
-    if existing_url:
-        flash('Страница уже существует', 'info')
-        return redirect(url_for('show_url', id=existing_url['id']))
-    
     try:
+        normalized_url = normalize_url(url)
+        existing_url = get_url_by_name(normalized_url)
+        
+        if existing_url:
+            flash('Страница уже существует', 'info')
+            return redirect(url_for('show_url', id=existing_url['id']))
+    
         url_id = add_url(normalized_url)
         flash('Страница успешно добавлена', 'success')
         return redirect(url_for('show_url', id=url_id))
+    
     except Exception as e:
         app.logger.error(f"Database error: {str(e)}")
         flash('Ошибка при добавлении страницы', 'danger')
