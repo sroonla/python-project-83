@@ -21,43 +21,7 @@ def is_valid_url(url):
         return False
     if len(url) > 255:
         return False
-    
-    if not url.startswith(('http://', 'https://')):
-        return False
-    
-    try:
-        parsed = urlparse(url)
-        netloc = parsed.netloc
-
-        if not netloc:
-            return False
-        
-        domain = netloc.split(':')[0]
-
-        if not domain:
-            return False
-        
-        if domain == 'localhost' or domain.startswith('127.0.0.') or domain.startswith('192.168.'):
-            return True
-        
-        if domain.replace('.', '').isdigit():
-            return True
-        
-        if '.' not in domain:
-            return False
-        
-        if domain.startswith('.') or domain.endswith('.'):
-            return False
-        
-        parts = domain.split('.')
-        for part in parts:
-            if not part:
-                return False
-
-        return True
-    except ValueError:
-        return False
-
+    return '.' in url
 def add_url(url):
     normalized_url = normalize_url(url)
     with get_connection() as conn:
