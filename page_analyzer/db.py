@@ -21,7 +21,13 @@ def is_valid_url(url):
         return False
     if len(url) > 255:
         return False
-    return '.' in url
+    parsed = urlparse(url)
+    if parsed.scheme not in ('http', 'https'):
+        return False
+    if not parsed.netloc or '.' not in parsed.netloc:
+        return False
+    return True
+
 def add_url(url):
     normalized_url = normalize_url(url)
     with get_connection() as conn:
