@@ -24,7 +24,7 @@ def is_valid_url(url):
     parsed = urlparse(url)
     if parsed.scheme not in ('http', 'https'):
         return False
-    if not parsed.netloc or '.' not in parsed.netloc:
+    if not parsed.netloc:
         return False
     return True
 
