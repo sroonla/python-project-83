@@ -1,5 +1,6 @@
 import os
 import pytest
+import psycopg2
 from page_analyzer.app import app as flask_app
 from page_analyzer.db import init_db, add_url
 
