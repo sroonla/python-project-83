@@ -115,7 +115,7 @@ def check_url(id):
         elif isinstance(e, requests.exceptions.SSLError):
             error_msg = 'Ошибка SSL сертификата'
         else:
-            error_msg = f'Ошибка при проверке: {str(e)}'
+            error_msg = 'Произошла ошибка при проверке'
         
         flash(error_msg, 'danger')
     
