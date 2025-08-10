@@ -2,7 +2,7 @@ import os
 import datetime
 import requests
 from flask import (
-    Flask, render_template, request, 
+    Flask, render_template, request,
     redirect, url_for, flash
 )
 from bs4 import BeautifulSoup
@@ -18,13 +18,16 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.context_processor
 def inject_current_year():
     return {'current_year': datetime.datetime.now().year}
+
 
 @app.route('/urls', methods=['POST'])
 def add_url_handler():
@@ -51,10 +54,12 @@ def add_url_handler():
         flash('Ошибка при добавлении страницы', 'danger')
         return redirect(url_for('index'))
 
+
 @app.route('/urls')
 def list_urls():
     urls = get_all_urls()
     return render_template('urls/index.html', urls=urls)
+
 
 @app.route('/urls/<int:id>')
 def show_url(id):
@@ -66,6 +71,7 @@ def show_url(id):
     checks = get_url_checks(id)
     return render_template('urls/show.html', url=url, checks=checks)
 
+
 @app.post('/urls/<int:id>/checks')
 def check_url(id):
     url_data = get_url_by_id(id)
@@ -73,14 +79,19 @@ def check_url(id):
         flash('Страница не найдена', 'danger')
         return redirect(url_for('index'))
     
-    
     url_name = url_data['name']
     
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-            '(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/125.0.0.0 Safari/537.36'
+            ),
+            'Accept': (
+                'text/html,application/xhtml+xml,application/xml;'
+                'q=0.9,image/webp,*/*;q=0.8'
+            ),
             'Accept-Language': 'en-US,en;q=0.5',
         }
         
@@ -101,7 +112,11 @@ def check_url(id):
         title = title_tag.text.strip() if title_tag else None
         
         meta_desc = soup.find('meta', attrs={'name': 'description'})
-        description = meta_desc['content'].strip() if meta_desc and meta_desc.get('content') else None
+        description = (
+            meta_desc['content'].strip()
+            if meta_desc and meta_desc.get('content')
+            else None
+        )
         
         if description and len(description) > 255:
             description = description[:252] + '...'
@@ -125,6 +140,7 @@ def check_url(id):
         flash(f'Неизвестная ошибка: {str(e)}', 'danger')
     
     return redirect(url_for('show_url', id=id))
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
