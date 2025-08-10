@@ -3,14 +3,14 @@ import datetime
 import requests
 from flask import (
     Flask, render_template, request, 
-    redirect, url_for, flash, get_flashed_messages
+    redirect, url_for, flash
 )
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from .db import (
     add_url, get_url_by_id, get_url_by_name,
     get_all_urls, add_url_check, get_url_checks,
-    is_valid_url, normalize_url, init_db
+    is_valid_url, normalize_url
 )
 
 load_dotenv()
@@ -73,11 +73,13 @@ def check_url(id):
         flash('Страница не найдена', 'danger')
         return redirect(url_for('index'))
     
+    
     url_name = url_data['name']
     
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+            '(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
         }

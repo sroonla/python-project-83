@@ -2,7 +2,6 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 from urllib.parse import urlparse
-import validators
 from datetime import datetime
 
 load_dotenv()
