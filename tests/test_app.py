@@ -1,6 +1,7 @@
 import requests
 from page_analyzer.db import get_url_checks
 
+
 def test_home_page(client):
     response = client.get('/')
     assert response.status_code == 200
@@ -105,7 +106,6 @@ def test_check_url_without_meta(client, monkeypatch):
         
         def raise_for_status(self):
             pass
-
 
     def mock_get(*args, **kwargs):
         return MockResponse()

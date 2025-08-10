@@ -50,7 +50,13 @@ def test_add_url_check(clean_db):
     url_id = add_url(url)
     assert url_id is not None
     
-    check_id = add_url_check(url_id, 200, "Test Title", "Test H1", "Test Description")
+    check_id = add_url_check(
+        url_id,
+        200,
+        "Test Title",
+        "Test H1",
+        "Test Description"
+        )
     assert check_id is not None
     
     checks = get_url_checks(url_id)
