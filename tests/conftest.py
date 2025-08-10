@@ -4,6 +4,9 @@ import psycopg2
 from page_analyzer.app import app as flask_app
 from page_analyzer.db import init_db, add_url
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SQL_PATH = os.path.join(BASE_DIR, '..', 'database.sql')
+
 @pytest.fixture
 def app():
     app = flask_app
@@ -24,14 +27,16 @@ def test_url(app):
     with app.app_context():
         url_id = add_url("https://example.com")
         return url_id
-    
-@pytest.fixture(scope="session", autouse=True)
+
+# Исправлены кавычки
+@pytest.fixture(scope='session', autouse=True)
 def setup_test_database():
     db_url = os.getenv("DATABASE_URL")
     if not db_url:
         pytest.skip("DATABASE_URL not set")
     
-    with open('database.sql', 'r') as f:
+    # Используем абсолютный путь
+    with open(SQL_PATH, 'r') as f:
         sql = f.read()
     
     conn = psycopg2.connect(db_url)
