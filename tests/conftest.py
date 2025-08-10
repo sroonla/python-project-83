@@ -1,11 +1,15 @@
 import os
 import pytest
 import psycopg2
+from pathlib import Path
 from page_analyzer.app import app as flask_app
 from page_analyzer.db import init_db, add_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SQL_PATH = os.path.join(BASE_DIR, '..', 'database.sql')
+BASE_DIR = Path(__file__).resolve().parent.parent
+SQL_PATH = BASE_DIR / 'database.sql'
+
+print(f"SQL_PATH: {SQL_PATH}")
+print(f"File exists: {SQL_PATH.exists()}")
 
 @pytest.fixture
 def app():
@@ -28,14 +32,12 @@ def test_url(app):
         url_id = add_url("https://example.com")
         return url_id
 
-# Исправлены кавычки
 @pytest.fixture(scope='session', autouse=True)
 def setup_test_database():
     db_url = os.getenv("DATABASE_URL")
     if not db_url:
         pytest.skip("DATABASE_URL not set")
     
-    # Используем абсолютный путь
     with open(SQL_PATH, 'r') as f:
         sql = f.read()
     
