@@ -18,15 +18,13 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.context_processor
 def inject_current_year():
     return {'current_year': datetime.datetime.now().year}
-
-@app.route('/')
-def index():
-    messages = get_flashed_messages(with_categories=True)
-    app.logger.debug(f"Flash messages on index: {messages}")
-    return render_template('index.html', messages=messages)
 
 @app.route('/urls', methods=['POST'])
 def add_url_handler():
