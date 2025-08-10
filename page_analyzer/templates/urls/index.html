@@ -14,10 +14,10 @@
     <tbody>
         {% for url in urls %}
         <tr>
-            <td>{{ url[0] }}</td>
-            <td><a href="{{ url_for('show_url', id=url[0]) }}">{{ url[1] }}</a></td>
-            <td>{{ url[2].strftime('%Y-%m-%d %H:%M') if url[2] else '' }}</td>
-            <td>{{ url[3] if url[3] }}</td>
+            <td>{{ url.id }}</td>
+            <td><a href="{{ url_for('show_url', id=url.id) }}">{{ url.name }}</a></td>
+            <td>{{ url.last_check.strftime('%Y-%m-%d %H:%M') if url.last_check else '' }}</td>
+            <td>{{ url.status_code if url.status_code }}</td>
         </tr>
         {% endfor %}
     </tbody>
