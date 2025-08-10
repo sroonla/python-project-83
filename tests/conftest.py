@@ -11,6 +11,7 @@ SQL_PATH = BASE_DIR / 'database.sql'
 print(f"SQL_PATH: {SQL_PATH}")
 print(f"File exists: {SQL_PATH.exists()}")
 
+
 @pytest.fixture
 def app():
     app = flask_app
@@ -22,15 +23,18 @@ def app():
 
     return app
 
+
 @pytest.fixture
 def client(app):
     return app.test_client()
+
 
 @pytest.fixture
 def test_url(app):
     with app.app_context():
         url_id = add_url("https://example.com")
         return url_id
+
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_test_database():

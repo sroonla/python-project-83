@@ -10,6 +10,7 @@ from page_analyzer.db import (
     get_url_checks
 )
 
+
 @pytest.fixture(autouse=True)
 def clean_db():
     conn = get_connection()
@@ -22,6 +23,7 @@ def clean_db():
         conn.close()
     yield
 
+
 def test_add_url(clean_db):
     url = "https://example.com"
     url_id = add_url(url)
@@ -33,6 +35,7 @@ def test_add_url(clean_db):
     same_url = get_url_by_name(url)
     assert same_url["id"] == url_id
 
+
 def test_add_existing_url(clean_db):
     url = "https://example.com"
     first_id = add_url(url)
@@ -40,6 +43,7 @@ def test_add_existing_url(clean_db):
     
     assert first_id is not None
     assert second_id == first_id
+
 
 def test_add_url_check(clean_db):
     url = "https://example.com"
@@ -54,15 +58,18 @@ def test_add_url_check(clean_db):
     assert checks[0]["status_code"] == 200
     assert checks[0]["h1"] == "Test Title"
 
+
 def test_db_connection():
     conn = get_connection()
     assert conn is not None
     conn.close()
 
+
 def test_normalize_url():
     assert normalize_url("https://example.com/path") == "https://example.com"
     assert normalize_url("https://example.com:443") == "https://example.com:443"
     assert normalize_url("http://example.com:80/path") == "http://example.com:80"
+
 
 def test_is_valid_url():
     assert is_valid_url("https://example.com") is True

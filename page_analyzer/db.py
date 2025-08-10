@@ -8,12 +8,15 @@ load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+
 def get_connection():
     return psycopg2.connect(DATABASE_URL)
+
 
 def normalize_url(url):
     parsed = urlparse(url)
     return f"{parsed.scheme}://{parsed.netloc}"
+
 
 def is_valid_url(url):
     if not url:
@@ -26,6 +29,7 @@ def is_valid_url(url):
     if not parsed.netloc:
         return False
     return True
+
 
 def add_url(url):
     normalized_url = normalize_url(url)
@@ -41,6 +45,7 @@ def add_url(url):
             conn.commit()
             return result[0] if result else None
 
+
 def get_url_by_id(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -49,6 +54,7 @@ def get_url_by_id(url_id):
             if row:
                 return {"id": row[0], "name": row[1], "created_at": row[2]}
             return None
+
 
 def get_url_by_name(url):
     normalized_url = normalize_url(url)
@@ -59,6 +65,7 @@ def get_url_by_name(url):
             if row:
                 return {"id": row[0], "name": row[1], "created_at": row[2]}
             return None
+
 
 def add_url_check(url_id, status_code, h1=None, title=None, description=None):
     with get_connection() as conn:
@@ -77,6 +84,7 @@ def add_url_check(url_id, status_code, h1=None, title=None, description=None):
             result = cur.fetchone()
             conn.commit()
             return result[0] if result else None
+
 
 def get_url_checks(url_id):
     with get_connection() as conn:
@@ -105,6 +113,7 @@ def get_url_checks(url_id):
                 for row in cur.fetchall()
             ]
 
+
 def get_all_urls():
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -132,6 +141,7 @@ def get_all_urls():
                 }
                 for row in cur.fetchall()
             ]
+        
         
 def init_db():
     conn = get_connection()
