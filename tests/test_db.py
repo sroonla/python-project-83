@@ -1,14 +1,13 @@
 import pytest
 from page_analyzer.db import (
     get_connection, 
-    normalize_url, 
-    is_valid_url, 
     add_url, 
     get_url_by_id, 
     get_url_by_name, 
     add_url_check, 
     get_url_checks
 )
+from page_analyzer.url_utils import normalize_url, is_valid_url
 
 
 @pytest.fixture(autouse=True)

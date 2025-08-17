@@ -13,24 +13,6 @@ def get_connection():
     return psycopg2.connect(DATABASE_URL)
 
 
-def normalize_url(url):
-    parsed = urlparse(url)
-    return f"{parsed.scheme}://{parsed.netloc}"
-
-
-def is_valid_url(url):
-    if not url:
-        return False
-    if len(url) > 255:
-        return False
-    parsed = urlparse(url)
-    if parsed.scheme not in ('http', 'https'):
-        return False
-    if not parsed.netloc:
-        return False
-    return True
-
-
 def add_url(url):
     normalized_url = normalize_url(url)
     with get_connection() as conn:
