@@ -82,10 +82,12 @@ def test_is_valid_url():
     assert is_valid_url("http://localhost:8000") is True
     assert is_valid_url("http://127.0.0.1:5000") is True
     assert is_valid_url("https://example.co.uk") is True
-    assert is_valid_url("http://***example.com") is True
 
+
+    assert is_valid_url("http://***example.com") is False
     assert is_valid_url("") is False
     assert is_valid_url("https://") is False
+    assert is_valid_url("ftp://example.com") is False
 
     long_url = "https://example.com/" + "a" * 240
     assert len(long_url) > 255

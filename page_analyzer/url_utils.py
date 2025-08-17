@@ -15,4 +15,8 @@ def is_valid_url(url):
     if "localhost" in url or "127.0.0.1" in url:
         return True
     
+    parsed = urlparse(url)
+    if parsed.scheme not in ['http', 'https']:
+        return False
+    
     return validators.url(url)
