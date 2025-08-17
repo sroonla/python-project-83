@@ -1,3 +1,4 @@
+import pytest
 import requests
 from page_analyzer.db import get_url_checks
 

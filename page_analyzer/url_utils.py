@@ -1,9 +1,11 @@
 from urllib.parse import urlparse
 import validators
 
+
 def normalize_url(url):
     parsed = urlparse(url)
     return f"{parsed.scheme}://{parsed.netloc}"
+
 
 def is_valid_url(url):
     if not url:
@@ -21,5 +23,5 @@ def is_valid_url(url):
     
     try:
         return validators.url(url) is True
-    except:
+    except Exception:
         return False
