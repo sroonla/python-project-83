@@ -1,8 +1,8 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 from datetime import datetime
+from .url_utils import normalize_url
 
 load_dotenv()
 
