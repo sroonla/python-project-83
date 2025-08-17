@@ -19,4 +19,7 @@ def is_valid_url(url):
     if parsed.scheme not in ['http', 'https']:
         return False
     
-    return validators.url(url)
+    try:
+        return validators.url(url) is True
+    except:
+        return False
