@@ -3,7 +3,7 @@ requires = ["uv"]
 build-backend = "uv"
 
 [project]
-name = "page-analyzer"
+name = "hexlet-code"
 version = "1.0.0"
 description = "Web application for analyzing websites SEO parameters"
 readme = "README.md"

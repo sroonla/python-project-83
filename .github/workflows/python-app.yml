@@ -42,7 +42,7 @@ jobs:
       
     - name: Install Python dependencies
       run: |
-        uv pip install -e .
+        uv pip install --system -e .
         
     - name: Run tests with coverage
       env:
