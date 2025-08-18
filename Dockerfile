@@ -15,4 +15,4 @@ COPY . .
 
 RUN uv pip install --system -e .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "hexlet_code.app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "page_analyzer.app:app"]
