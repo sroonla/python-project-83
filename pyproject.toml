@@ -1,29 +1,27 @@
+[build-system]
+requires = ["uv"]
+build-backend = "uv"
+
 [project]
-name = "hexlet-code"
-version = "0.1.0"
-description = "Add your description here"
+name = "page-analyzer"
+version = "1.0.0"
+description = "Web application for analyzing websites SEO parameters"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
-    "bs4>=0.0.2",
-    "flask>=3.1.0",
-    "gunicorn>=23.0.0",
-    "psycopg2-binary>=2.9.10",
-    "python-dotenv>=1.1.0",
-    "requests>=2.32.3",
-    "validators>=0.35.0",
+    "Flask==3.1.1",
+    "psycopg2-binary==2.9.9",
+    "beautifulsoup4==4.13.4",
+    "requests==2.32.4",
+    "python-dotenv==1.0.1",
+    "validators==0.22.0",
+    "gunicorn==23.0.0"
 ]
 
-[build-system] 
-requires = ["hatchling"] 
-build-backend = "hatchling.build"
+[project.scripts]
+start = "gunicorn -w 4 -b 0.0.0.0:8000 'page_analyzer.app:create_app()'"
 
-[tool.hatch.build.targets.wheel] 
-packages = ["page_analyzer"]
-
-[dependency-groups]
-dev = [
-    "pytest>=8.3.5",
-    "pytest-cov>=6.1.1",
-    "ruff>=0.11.7",
-]
+[tool.ruff]
+line-length = 80
+select = ["E", "F", "W", "I"]
+ignore = []
